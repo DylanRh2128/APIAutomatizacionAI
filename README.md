@@ -1,5 +1,8 @@
 # Expense Report Summary API
 
+> Also reachable at `/expenses` through this portfolio's `portfolio-gateway` reverse proxy,
+> which puts all the portfolio's APIs behind one public URL.
+
 ## Problem
 
 Small business owners track expenses in a spreadsheet but rarely have time to turn that into
