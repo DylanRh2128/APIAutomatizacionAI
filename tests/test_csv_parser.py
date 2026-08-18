@@ -1,6 +1,6 @@
 import pytest
 
-from app.csv_parser import InvalidCSVError, parse_expenses_csv
+from app.csv_parser import parse_expenses_csv
 
 VALID_CSV = b"""date,category,amount,description
 2026-07-01,Servicios,450000,Internet
@@ -17,17 +17,17 @@ def test_parses_valid_csv():
 
 def test_missing_column_raises():
     csv_bytes = b"date,category,amount\n2026-07-01,Servicios,450000\n"
-    with pytest.raises(InvalidCSVError, match="Missing required columns"):
+    with pytest.raises(ValueError, match="Missing required columns"):
         parse_expenses_csv(csv_bytes)
 
 
 def test_non_numeric_amount_raises():
     csv_bytes = b"date,category,amount,description\n2026-07-01,Servicios,notanumber,Internet\n"
-    with pytest.raises(InvalidCSVError, match="Row 2"):
+    with pytest.raises(ValueError, match="Row 2"):
         parse_expenses_csv(csv_bytes)
 
 
 def test_empty_csv_raises():
     csv_bytes = b"date,category,amount,description\n"
-    with pytest.raises(InvalidCSVError, match="no data rows"):
+    with pytest.raises(ValueError, match="no data rows"):
         parse_expenses_csv(csv_bytes)

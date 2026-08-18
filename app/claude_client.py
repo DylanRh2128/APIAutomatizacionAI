@@ -2,14 +2,7 @@ import os
 
 from anthropic import Anthropic
 
-_client = None
-
-
-def _get_client() -> Anthropic:
-    global _client
-    if _client is None:
-        _client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-    return _client
+_client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
 
 
 def generate_summary(totals_by_category: dict, total_amount: float, outliers: list[dict]) -> str:
@@ -38,7 +31,7 @@ Unusual expenses (statistical outliers within their category):
 Write a 2-4 paragraph executive summary in plain English: overall spending, the top
 categories, and whether the unusual expenses deserve attention. No headings, no bullet points."""
 
-    message = _get_client().messages.create(
+    message = _client.messages.create(
         model="claude-3-5-haiku-latest",
         max_tokens=500,
         messages=[{"role": "user", "content": prompt}],

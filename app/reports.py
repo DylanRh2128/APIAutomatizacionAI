@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.aggregation import aggregate_expenses
 from app.claude_client import generate_summary
-from app.csv_parser import InvalidCSVError, parse_expenses_csv
+from app.csv_parser import parse_expenses_csv
 from app.db import get_db
 from app.models import Expense, Report
 from app.schemas import ReportListItem, ReportOut
@@ -16,7 +16,7 @@ async def create_report(file: UploadFile, db: Session = Depends(get_db)):
     raw = await file.read()
     try:
         rows = parse_expenses_csv(raw)
-    except InvalidCSVError as e:
+    except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
     aggregates = aggregate_expenses(rows)
