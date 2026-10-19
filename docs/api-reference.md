@@ -1,5 +1,8 @@
 # API Reference
 
+Every endpoint below requires header `X-API-Key` matching the server's `API_KEY` (`401` if
+missing or wrong) — each report costs a Claude API call, so the upload can't be left open.
+
 ## `POST /reports`
 
 Upload a CSV file (`multipart/form-data`, field name `file`) and get back the generated report.
@@ -23,7 +26,7 @@ Response `200`:
 ```
 
 Errors: `400` if the CSV is missing a required column, has a non-numeric amount, or has no data
-rows. `502` if the Claude API call fails.
+rows. `413` if the file is over 1 MB. `502` if the Claude API call fails.
 
 ## `GET /reports`
 

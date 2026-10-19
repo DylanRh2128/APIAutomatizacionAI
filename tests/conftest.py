@@ -8,9 +8,12 @@ from app import models  # noqa: F401 — registers models on Base before create_
 from app.db import Base, get_db
 from app.main import app
 
+API_KEY = "test-api-key"
+
 
 @pytest.fixture
 def client(monkeypatch):
+    monkeypatch.setenv("API_KEY", API_KEY)
     engine = create_engine(
         "sqlite:///:memory:",
         connect_args={"check_same_thread": False},
@@ -29,6 +32,6 @@ def client(monkeypatch):
     app.dependency_overrides[get_db] = override_get_db
     monkeypatch.setattr("app.reports.generate_summary", lambda **kwargs: "Fake summary.")
 
-    yield TestClient(app)
+    yield TestClient(app, headers={"X-API-Key": API_KEY})
 
     app.dependency_overrides.clear()

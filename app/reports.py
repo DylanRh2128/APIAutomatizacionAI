@@ -2,18 +2,23 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from app.aggregation import aggregate_expenses
+from app.auth import verify_api_key
 from app.claude_client import generate_summary
 from app.csv_parser import parse_expenses_csv
 from app.db import get_db
 from app.models import Expense, Report
 from app.schemas import ReportListItem, ReportOut
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(verify_api_key)])
+
+MAX_CSV_BYTES = 1_000_000
 
 
 @router.post("/reports", response_model=ReportOut)
 async def create_report(file: UploadFile, db: Session = Depends(get_db)):
-    raw = await file.read()
+    raw = await file.read(MAX_CSV_BYTES + 1)
+    if len(raw) > MAX_CSV_BYTES:
+        raise HTTPException(status_code=413, detail="CSV larger than 1 MB")
     try:
         rows = parse_expenses_csv(raw)
     except ValueError as e:

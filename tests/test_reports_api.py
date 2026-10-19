@@ -39,3 +39,13 @@ def test_get_report_by_id(client):
 def test_get_report_not_found(client):
     response = client.get("/reports/999")
     assert response.status_code == 404
+
+
+def test_requires_api_key(client):
+    for key in ("", "wrong"):
+        assert client.get("/reports", headers={"X-API-Key": key}).status_code == 401
+
+
+def test_csv_over_1mb_returns_413(client):
+    response = upload(client, content=VALID_CSV + b"x" * 1_000_000)
+    assert response.status_code == 413

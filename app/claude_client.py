@@ -32,7 +32,7 @@ Write a 2-4 paragraph executive summary in plain English: overall spending, the 
 categories, and whether the unusual expenses deserve attention. No headings, no bullet points."""
 
     message = _client.messages.create(
-        model="claude-3-5-haiku-latest",
+        model="claude-haiku-5-5",
         max_tokens=500,
         messages=[{"role": "user", "content": prompt}],
     )

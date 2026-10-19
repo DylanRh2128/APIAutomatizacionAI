@@ -40,7 +40,7 @@ Open `http://localhost:8000/docs` for the interactive API docs.
 No local Python/PostgreSQL install needed — just Docker:
 
 ```bash
-ANTHROPIC_API_KEY=your-real-key docker compose up --build
+ANTHROPIC_API_KEY=your-real-key API_KEY=your-api-key docker compose up --build
 ```
 
 The API is on `http://localhost:8001` (mapped from the container's port 8000, to avoid clashing
@@ -50,7 +50,7 @@ with a locally-running Postgres/instance on 8000/5432). See
 ## Try it
 
 ```bash
-curl -F "file=@sample_expenses.csv" http://localhost:8000/reports
+curl -H "X-API-Key: your-api-key" -F "file=@sample_expenses.csv" http://localhost:8000/reports
 ```
 
 CSV must have columns: `date` (YYYY-MM-DD), `category`, `amount`, `description`.
