@@ -1,7 +1,7 @@
 # API Reference
 
 Every endpoint below requires header `X-API-Key` matching the server's `API_KEY` (`401` if
-missing or wrong) — each report costs a Claude API call, so the upload can't be left open.
+missing or wrong) — each report costs a OpenAI API call, so the upload can't be left open.
 
 ## `POST /reports`
 
@@ -26,7 +26,7 @@ Response `200`:
 ```
 
 Errors: `400` if the CSV is missing a required column, has a non-numeric amount, or has no data
-rows. `413` if the file is over 1 MB. `502` if the Claude API call fails.
+rows. `413` if the file is over 1 MB. `502` if the OpenAI API call fails.
 
 ## `GET /reports`
 

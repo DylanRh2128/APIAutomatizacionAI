@@ -3,7 +3,7 @@
 ## Docker (local)
 
 ```bash
-ANTHROPIC_API_KEY=your-real-key docker compose up --build
+OPENAI_API_KEY=your-real-key docker compose up --build
 ```
 
 `docker-compose.yml` runs two containers:
@@ -14,7 +14,7 @@ ANTHROPIC_API_KEY=your-real-key docker compose up --build
 
 `DATABASE_URL` is set inside `docker-compose.yml` to point at the `db` service by its Docker
 network name (`db:5432`) — this is different from the `DATABASE_URL` in `.env.example`, which is
-for running the app directly on the host (`localhost:5432`). `ANTHROPIC_API_KEY` still comes
+for running the app directly on the host (`localhost:5432`). `OPENAI_API_KEY` still comes
 from your shell environment (or a `.env` file next to `docker-compose.yml`, which Docker Compose
 reads automatically) — never hardcoded in the compose file.
 
@@ -28,5 +28,5 @@ single-container portfolio API would be solving a scaling problem that doesn't e
 ## Deploying beyond local Docker
 
 The same `Dockerfile` is what a platform like Railway or Render would build for a live deploy —
-point either at this repo, set `DATABASE_URL` (their managed Postgres) and `ANTHROPIC_API_KEY`
+point either at this repo, set `DATABASE_URL` (their managed Postgres) and `OPENAI_API_KEY`
 as environment variables in their dashboard, and they build and run the same image.

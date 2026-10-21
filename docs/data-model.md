@@ -9,7 +9,7 @@
 | period_start     | date      | earliest expense date in the CSV |
 | period_end       | date      | latest expense date in the CSV   |
 | total_amount     | numeric   | sum of all expenses in the report |
-| summary_text     | text      | Claude-generated narrative      |
+| summary_text     | text      | LLM-generated narrative      |
 | source_filename  | string    | original uploaded filename      |
 
 ## `expenses`

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.aggregation import aggregate_expenses
 from app.auth import verify_api_key
-from app.claude_client import generate_summary
+from app.llm_client import generate_summary
 from app.csv_parser import parse_expenses_csv
 from app.db import get_db
 from app.models import Expense, Report

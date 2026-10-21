@@ -12,15 +12,15 @@ an actual executive summary — what did we spend, on what, and did anything loo
 
 Upload a CSV of expenses and get back a report: totals, a breakdown by category, statistical
 outliers (unusually large expenses within their category), and a plain-English executive
-summary written by Claude. Reports are saved, so you can list and revisit past ones.
+summary written by an LLM (OpenAI). Reports are saved, so you can list and revisit past ones.
 
-All math (totals, category breakdowns, outlier detection) is computed in plain Python — Claude
+All math (totals, category breakdowns, outlier detection) is computed in plain Python — the LLM
 is only used to write the narrative summary from numbers it's given, never to do the arithmetic
 itself. See [docs/architecture.md](docs/architecture.md) for why.
 
 ## Stack
 
-Python + FastAPI + PostgreSQL (SQLAlchemy) + Claude API (Anthropic).
+Python + FastAPI + PostgreSQL (SQLAlchemy) + OpenAI API.
 
 ## How to run it
 
@@ -29,7 +29,7 @@ python -m venv .venv
 .venv/Scripts/activate        # or source .venv/bin/activate on Linux/Mac
 pip install -r requirements.txt
 
-cp .env.example .env          # then fill in DATABASE_URL and ANTHROPIC_API_KEY
+cp .env.example .env          # then fill in DATABASE_URL and OPENAI_API_KEY
 uvicorn app.main:app --reload
 ```
 
@@ -40,7 +40,7 @@ Open `http://localhost:8000/docs` for the interactive API docs.
 No local Python/PostgreSQL install needed — just Docker:
 
 ```bash
-ANTHROPIC_API_KEY=your-real-key API_KEY=your-api-key docker compose up --build
+OPENAI_API_KEY=your-real-key API_KEY=your-api-key docker compose up --build
 ```
 
 The API is on `http://localhost:8001` (mapped from the container's port 8000, to avoid clashing
