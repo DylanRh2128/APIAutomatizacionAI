@@ -49,3 +49,16 @@ def test_requires_api_key(client):
 def test_csv_over_1mb_returns_413(client):
     response = upload(client, content=VALID_CSV + b"x" * 1_000_000)
     assert response.status_code == 413
+
+
+def test_summary_language_is_passed_through(client, monkeypatch):
+    seen = {}
+    monkeypatch.setattr("app.reports.generate_summary", lambda **kwargs: seen.update(kwargs) or "Resumen.")
+    response = client.post("/reports", files={"file": ("g.csv", VALID_CSV, "text/csv")}, data={"language": "es"})
+    assert response.status_code == 200
+    assert seen["language"] == "es"
+
+
+def test_unsupported_language_returns_422(client):
+    response = client.post("/reports", files={"file": ("g.csv", VALID_CSV, "text/csv")}, data={"language": "fr"})
+    assert response.status_code == 422

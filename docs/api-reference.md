@@ -35,3 +35,8 @@ Lists past reports (no expense detail), most recent first.
 ## `GET /reports/{id}`
 
 Same shape as the `POST /reports` response. `404` if the report doesn't exist.
+
+### Optional `language` form field
+
+`POST /reports` accepts `language` = `en` (default) or `es` alongside the file; it only changes the
+language the summary is written in (`422` for anything else). The numbers are unaffected.

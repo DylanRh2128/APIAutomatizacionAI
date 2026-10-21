@@ -4,9 +4,12 @@ from openai import OpenAI
 
 _client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 MODEL = os.environ.get("OPENAI_MODEL", "gpt-5.4-nano")
+LANGUAGES = {"en": "English", "es": "Spanish"}
 
 
-def generate_summary(totals_by_category: dict, total_amount: float, outliers: list[dict]) -> str:
+def generate_summary(
+    totals_by_category: dict, total_amount: float, outliers: list[dict], language: str = "en"
+) -> str:
     outliers_text = (
         "\n".join(
             f"- {o['date']}: {o['category']} — {o['amount']} ({o['description']})"
@@ -29,7 +32,7 @@ Totals by category:
 Unusual expenses (statistical outliers within their category):
 {outliers_text}
 
-Write a 2-4 paragraph executive summary in plain English: overall spending, the top
+Write a 2-4 paragraph executive summary in plain {LANGUAGES[language]}: overall spending, the top
 categories, and whether the unusual expenses deserve attention. No headings, no bullet points."""
 
     response = _client.chat.completions.create(
